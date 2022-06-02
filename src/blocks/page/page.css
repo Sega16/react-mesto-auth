@@ -4,4 +4,5 @@
     margin: 0 auto;
     font-family: 'inter', 'Arial', sans-serif;
     position: relative;
+    min-height: 100vh;
 }

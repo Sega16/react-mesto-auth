@@ -9,7 +9,7 @@ function Header({ email, onExit }) {
             <div className="header__content">
                 <Switch>
 
-                    <Route extract path="/">
+                    <Route exact path="/">
                         <p className="header__email">{email}</p>
                         <Link to="/sign-in" className="header__exit" onClick={onExit}>
                             Выйти
