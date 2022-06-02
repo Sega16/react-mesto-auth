@@ -14,7 +14,7 @@ import Login from "./Login";
 import * as auth from "../utils/auth.js";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "./Register";
-import InfoTooltip from "./infoTooltip";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -109,13 +109,14 @@ function App() {
             .getProfile()
             .then((res) => setCurrentUser(res))
             // .cath((err) => console.log(err));
+            .getCards()
+            .then((cards) => setCards(cards))
+            .catch((err) => console.log(err));
     }, []);
 
     useEffect(() => {
         api
-            .getCards()
-            .then((cards) => setCards(cards))
-            .catch((err) => console.log(err));
+            
     }, []);
 
     function handleCardLike(card) {
