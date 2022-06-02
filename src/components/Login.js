@@ -42,7 +42,7 @@ function Login(props) {
                     id="password-input"
                     value={password}
                     onChange={handleChangePassword}
-                    munlength="6"
+                    minLength="6"
                     maxLength="15"
                 />
                 <span className="popup__text-error password-input-error"></span>

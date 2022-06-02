@@ -105,19 +105,14 @@ function App() {
     }, [isOpen]);
 
     useEffect(() => {
-        api
-            .getProfile()
-            .then((res) => setCurrentUser(res))
-            // .cath((err) => console.log(err));
-            .getCards()
-            .then((cards) => setCards(cards))
-            .catch((err) => console.log(err));
-    }, []);
-
-    useEffect(() => {
-        api
-            
-    }, []);
+        if (loggedIn) {
+            api.getProfile()
+                .then((res) => setCurrentUser(res))
+            api.getCards()
+                .then((cards) => setCards(cards))
+                .catch((err) => console.log(err));
+        }
+    }, [loggedIn]);
 
     function handleCardLike(card) {
         const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -132,8 +127,7 @@ function App() {
     }
 
     const handleCardDelete = (card) => {
-        api
-            .deleteCard(card._id)
+        api.deleteCard(card._id)
             .then(() => {
                 setCards((cards) => cards.filter((c) => c._id !== card._id));
                 closeAllPopups();
@@ -142,8 +136,7 @@ function App() {
     };
 
     const handleUpdateUser = (name, about) => {
-        api
-            .editProfile(name, about)
+        api.editProfile(name, about)
             .then((item) => {
                 setCurrentUser(item);
                 closeAllPopups();
@@ -152,8 +145,7 @@ function App() {
     };
 
     const handleUpdateAvatar = (avatar) => {
-        api
-            .updateAvatar(avatar.avatar)
+        api.updateAvatar(avatar.avatar)
             .then((item) => {
                 setCurrentUser(item);
                 closeAllPopups();
@@ -162,8 +154,7 @@ function App() {
     };
 
     const handleAddPlaceSubmit = (name, link) => {
-        api
-            .addCard(name, link)
+        api.addCard(name, link)
             .then((newCard) => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
@@ -176,8 +167,7 @@ function App() {
     }
 
     function handleLoginSubmit(email, password) {
-        auth
-            .authorization(email, password)
+        auth.authorization(email, password)
             .then((data) => {
                 localStorage.setItem("jwt", data.token);
                 setEmail(email)
@@ -192,8 +182,7 @@ function App() {
     }
 
     function handleRegistrSubmit(email, password) {
-        auth
-            .registration(email, password)
+        auth.registration(email, password)
             .then((res) => {
                 if (res) {
                     setIsReg(true);
@@ -221,8 +210,7 @@ function App() {
     function handleTokenCheck() {
         const jwt = localStorage.getItem("jwt");
         if (jwt) {
-            auth
-                .checkToken(jwt)
+            auth.checkToken(jwt)
                 .then((res) => {
                     handleLogin();
                     history.push("/");
@@ -283,8 +271,6 @@ function App() {
                     onClose={closeAllPopups}
                     onAddPlace={handleAddPlaceSubmit}
                 />
-
-                {/* попап вы 'уверены?' */}
                 <PopupWithForm
                     name="formDelete"
                     title="Вы уверены?"
@@ -295,9 +281,8 @@ function App() {
                 >
                     <input name="formDelete" className="popup__form popup__form_add" />
                 </PopupWithForm>
-
-                {/* попап открытия картинки */}
                 <ImagePopup selectedCard={selectedCard} onClose={closeAllPopups} />
+                
             </CurrentUserContext.Provider>
         </div>
     );

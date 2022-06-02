@@ -37,8 +37,8 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         className={cardDeleteButtonClassName}
         type="button"
         aria-label="удалить"
-      ></button>
-
+      >
+      </button>
       <img
         className="card__img"
         alt={card.name}
